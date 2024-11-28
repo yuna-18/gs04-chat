@@ -16,7 +16,8 @@
     margin: 0 auto;
     background-color: lightblue;
     width: 90%;
-    height: 133.3333333333vw;
+    height: 70vh;
+    overflow-y: scroll;
     padding: 5%;
   }
   main .contents__wrapper .contents .msg {

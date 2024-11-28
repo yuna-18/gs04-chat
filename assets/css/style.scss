@@ -18,7 +18,8 @@
         margin: 0 auto;
         background-color: lightblue;
         width: 90%;
-        height: calc(1000 / 750 * 100vw);
+        height: 70vh;
+        overflow-y: scroll;
         padding: 5%;
         
         .msg {
