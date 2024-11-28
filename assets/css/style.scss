@@ -17,24 +17,31 @@
       .contents {
         margin: 0 auto;
         background-color: lightblue;
-        width: 90vw;
+        width: 90%;
         height: calc(1000 / 750 * 100vw);
-        padding: calc(30 / 750 * 100vw);
+        padding: 5%;
         
-        .user-msg, .ai-msg {
+        .msg {
           padding: calc(15 / 750 * 100vw);
-          width: 45vw;
+          width: 40%;
           height: fit-content;
           background-color: #fff;
           border-radius: 2vw;
+          margin-left: 55%;
           
           p {
             font-size: calc(16 / 750 * 100vw);
+            line-height: 1.5;
           }
           
-          &:not(.user-msg:first-of-type, .ai-msg:first-of-type) {
+          &:not(.msg:first-of-type) {
             margin-top: calc(30 / 750 * 100vw);
           }
+          
+          &:not(.msg:nth-of-type(even)) {
+            margin-left: 0;
+          }
+          
         }
         
         .user-msg {

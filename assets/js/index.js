@@ -15,7 +15,7 @@ $('#reset').on("click", function () {
 
 function createAIMsg (aiMsg) {
   let message = `
-  <div class="ai-msg">
+  <div class="ai-msg msg">
     <p>${aiMsg}</p>
   </div>
   `;
@@ -24,7 +24,7 @@ function createAIMsg (aiMsg) {
 
 function createUserMsg (userMsg) {
   let message = `
-  <div class="user-msg">
+  <div class="user-msg msg">
     <p>${userMsg}</p>
   </div>
   `;
@@ -33,16 +33,18 @@ function createUserMsg (userMsg) {
 
 
 
-async function run() {
+async function initAiMsg() {
   // The Gemini 1.5 models are versatile and work with both text-only and multimodal prompts
   const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash"});
 
-  const prompt = "散歩の目的地を決めるための質問を5個までしてください。また、回答次第で散歩の目的地を決定してください。"
+  const prompt =
+    "以下の条件に従って質問を行い、目的地を提案してください:1.質問は1つずつ順番に行い、3回までとする。2.メッセージには質問以外の内容を含めない。3.質問ごとに選択肢を提示し、選択肢にはアルファベットをつける。4.質問は回答に応じて次の質問を変化させる。5.すべての質問が終わった後、回答に基づいて適切な散歩の目的地を1つ提案する。6.提案する目的地は具体名を避け、カテゴリ（例：公園、史跡）で表現すること。7.適宜brタグで改行する。8.選択肢の直前にはbrタグを2つ入れること。"
+
 
   const result = await model.generateContent(prompt);
   const response = await result.response;
   const text = response.text();
-  console.log(text);
+  createAIMsg(text);
 }
 
-// run();
+initAiMsg();

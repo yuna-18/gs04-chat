@@ -15,23 +15,28 @@
   main .contents__wrapper .contents {
     margin: 0 auto;
     background-color: lightblue;
-    width: 90vw;
+    width: 90%;
     height: 133.3333333333vw;
-    padding: 4vw;
+    padding: 5%;
   }
-  main .contents__wrapper .contents .user-msg, main .contents__wrapper .contents .ai-msg {
+  main .contents__wrapper .contents .msg {
     padding: 2vw;
-    width: 45vw;
+    width: 40%;
     height: -moz-fit-content;
     height: fit-content;
     background-color: #fff;
     border-radius: 2vw;
+    margin-left: 55%;
   }
-  main .contents__wrapper .contents .user-msg p, main .contents__wrapper .contents .ai-msg p {
+  main .contents__wrapper .contents .msg p {
     font-size: 2.1333333333vw;
+    line-height: 1.5;
   }
-  main .contents__wrapper .contents .user-msg:not(.user-msg:first-of-type, .ai-msg:first-of-type), main .contents__wrapper .contents .ai-msg:not(.user-msg:first-of-type, .ai-msg:first-of-type) {
+  main .contents__wrapper .contents .msg:not(.msg:first-of-type) {
     margin-top: 4vw;
+  }
+  main .contents__wrapper .contents .msg:not(.msg:nth-of-type(even)) {
+    margin-left: 0;
   }
   main .input__wrapper {
     width: 90vw;
