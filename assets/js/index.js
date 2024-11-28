@@ -17,7 +17,7 @@ const prompt = `
     ・質問文に数字をつけない。
     ・一度のメッセージに質問は1つまで。
   `;
-let step;
+let step = 1;
 let messageId;
 const sessions = {};
 
@@ -36,7 +36,7 @@ $(function () {
   $('#repush').on("click", function () {
     $('#userMsg').val("");
   });
-})
+});
 
 
 // ---要素挿入---
@@ -65,50 +65,57 @@ function createUserMsg (userMsg) {
 async function initMsg () {
   const result = await model.generateContent(prompt);
   const question = result.response.text();
-  step = 1;
   const id = generateId();
   messageId = id;
-  const sessionRef = ref(window.db, `sessions/step${step}-${messageId}`);
+  const sessionRef = ref(window.db, "sessions/step" + step + "-" + messageId);
   const aiResponse = {
     text: question,
-  }
+  };
   // 質問をデータベースに保存
-  if (!sessions[messageId]) {
-    sessions[messageId] = {};
+  if (!sessions["step" + step + "-" + messageId]) {
+    sessions["step" + step + "-" + messageId] = {};
   }
-  sessions[messageId].id = `step${step}-${messageId}`;
-  sessions[messageId].aiResponse = aiResponse.text;
-  set(sessionRef, sessions[messageId]);
+  sessions["step" + step + "-" + messageId].id = "sessions/step" + step + "-" + messageId;
+  sessions["step" + step + "-" + messageId].aiResponse = aiResponse.text;
+  await set(sessionRef, sessions["step" + step + "-" + messageId]);
   createAIMsg(question);
-  
+
   return id;
 }
 
 // AIからの返信
 async function replyAiMsg (userMsg) {
-  step += 1;
+  step++;
   const history = await fetchSessionHistory(); // Firebaseから履歴を取得する関数を実装
+  console.log("reply", history);
   const replyPrompt = `
-    以下は現在の会話の履歴です: ${history}
+    以下は現在の会話の履歴です:
+    前回の質問:${history.aiResponse}
     ユーザーの最新回答: ${userMsg}
     この情報をもとに、次の質問を生成してください。
     ${prompt}
   `;
-  const sessionRef = ref(window.db, `sessions/step${step}-${messageId}`);
+  const sessionRef = ref(window.db, "sessions/step" + step + "-" + messageId);
+  console.log("sessions/step" + step + "-" + messageId);
   const result = await model.generateContent(replyPrompt);
   const nextQuestion = result.response.text();
   const aiResponse = {
     text: nextQuestion,
+  };
+  // 質問をデータベースに保存
+  if (!sessions["step" + step + "-" + messageId]) {
+    sessions["step" + step + "-" + messageId] = {};
   }
-  // 次の質問を保存
-  sessions[messageId].aiResponse = aiResponse.text;
-  set(sessionRef, sessions[messageId]);
+  sessions["step" + step + "-" + messageId].id = "sessions/step" + step + "-" + messageId;
+  sessions["step" + step + "-" + messageId].aiResponse = aiResponse.text;
+  await set(sessionRef, sessions["step" + step + "-" + messageId]);
   // AIの返信を画面に表示
   createAIMsg(nextQuestion);
 }
 
 // 目的地の提案
 async function lastAiMsg () {
+  step++;
   const history = await fetchSessionHistory(); // Firebaseから履歴を取得
   const lastPrompt = `
     会話履歴:
@@ -116,24 +123,26 @@ async function lastAiMsg () {
     上記の情報を基に、適切な散歩の目的地をカテゴリで提案してください。
     （例: 公園、史跡）
   `;
-  const sessionRef = ref(window.db, `sessions/step${step}-${messageId}`);
+  const sessionRef = ref(window.db, "sessions/step" + step + "-" + messageId);
   const result = await model.generateContent(lastPrompt);
   const destination = result.response.text();
   const aiResponse = {
     result: destination,
-  }
-  sessions[messageId].result = aiResponse.result;
-  console.log(sessions[messageId]);
-  set(sessionRef, sessions[messageId]);
-  createAIMsg(sessions[messageId].result);
-  // displayMessage(`提案された散歩の目的地: ${destination}`);
+  };
+  sessions["step" + step + "-" + messageId].result = aiResponse.result;
+  console.log(sessions["step" + step + "-" + messageId]);
+  await set(sessionRef, sessions["step" + step + "-" + messageId]);
+  createAIMsg(sessions["step" + step + "-" + messageId].result);
 }
 
 // ---その他の関数---
 // 会話履歴取得
 async function fetchSessionHistory () {
-  const sessionRef = ref(window.db, `sessions/${messageId}`);
+  let tmp = step;
+  tmp--;
+  const sessionRef = await ref(window.db, "sessions/step" + tmp + "-" + messageId);
   const snapshot = await get(sessionRef);
+  await new Promise(resolve => setTimeout(resolve, 500));  // 500ms待機
 
   if (snapshot.exists()) {
     const history = snapshot.val();
@@ -145,20 +154,20 @@ async function fetchSessionHistory () {
 }
 
 // 送信
-function sendMsg () {
+async function sendMsg () {
   let userMsg = $('#userMsg').val();
   createUserMsg(userMsg);
-  const sessionRef = ref(window.db, `sessions/step${step}-${messageId}`);
+  const sessionRef = ref(window.db, "sessions/step" + step + "-" + messageId);
   $('#userMsg').val("");
   const userResponse = {
     text: userMsg,
+  };
+  if (!sessions["step" + step + "-" + messageId]) {
+    sessions["step" + step + "-" + messageId] = {};
   }
-  if (!sessions[messageId]) {
-    sessions[messageId] = {};
-  }
-  sessions[messageId].userResponse = userResponse.text;
-  console.log(sessions[messageId]);
-  set(sessionRef, sessions[messageId]);
+  sessions["step" + step + "-" + messageId].userResponse = userResponse.text;
+  console.log(sessions["step" + step + "-" + messageId]);
+  await set(sessionRef, sessions["step" + step + "-" + messageId]);
 
   if (step < 3) {
     setTimeout(() => {
@@ -173,5 +182,5 @@ function sendMsg () {
 
 // ID生成
 function generateId () {
-  return Math.floor(Math.random() * 1000 + 1)
+  return Math.floor(Math.random() * 1000 + 1);
 }
