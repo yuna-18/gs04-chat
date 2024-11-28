@@ -12,8 +12,7 @@ const prompt = `
     ・質問ごとに小文字のアルファベットをつけた選択肢を表示する。
     ・選択肢の回答結果に応じて次の質問を考える。
     ・最終的にカテゴリ（例：公園、史跡）で提案する。
-    ・選択肢同士の間に<br>タグを1つ入れる。
-    ・選択肢の直前に<br>タグを2つ入れる。
+    ・冒頭の文章と選択肢をそれぞれpタグで囲う。
     ・質問文に数字をつけない。
     ・一度のメッセージに質問は1つまで。
   `;
@@ -44,7 +43,7 @@ $(function () {
 function createAIMsg (aiMsg) {
   let message = `
   <div class="ai-msg msg">
-    <p>${aiMsg}</p>
+    ${aiMsg}
   </div>
   `;
   $('.contents').append(message);
@@ -87,7 +86,6 @@ async function initMsg () {
 async function replyAiMsg (userMsg) {
   step++;
   const history = await fetchSessionHistory(); // Firebaseから履歴を取得する関数を実装
-  console.log("reply", history);
   const replyPrompt = `
     以下は現在の会話の履歴です:
     前回の質問:${history.aiResponse}
@@ -96,7 +94,6 @@ async function replyAiMsg (userMsg) {
     ${prompt}
   `;
   const sessionRef = ref(window.db, "sessions/step" + step + "-" + messageId);
-  console.log("sessions/step" + step + "-" + messageId);
   const result = await model.generateContent(replyPrompt);
   const nextQuestion = result.response.text();
   const aiResponse = {
@@ -118,10 +115,18 @@ async function lastAiMsg () {
   step++;
   const history = await fetchSessionHistory(); // Firebaseから履歴を取得
   const lastPrompt = `
-    会話履歴:
-    ${history}
-    上記の情報を基に、適切な散歩の目的地をカテゴリで提案してください。
-    （例: 公園、史跡）
+    1つ目の質問:${sessions["step1-" + messageId].aiResponse}
+    回答:${sessions["step1-" + messageId].userResponse}
+    2つ目の質問:${sessions["step2-" + messageId].aiResponse}
+    回答:${sessions["step2-" + messageId].userResponse}
+    3つ目の質問:${sessions["step3-" + messageId].aiResponse}
+    回答:${sessions["step3-" + messageId].userResponse}
+    上記の情報を基に、適切な散歩の目的地を提案してください。
+    以下の条件に従ってください。
+    ・カテゴリで提案する。（例: 公園、史跡）
+    ・3つまで数字をつけて提案する。
+    ・シンプルな文章。
+    ・目的地をそれぞれ<p></p>で囲う。
   `;
   const sessionRef = ref(window.db, "sessions/step" + step + "-" + messageId);
   const result = await model.generateContent(lastPrompt);
@@ -129,6 +134,9 @@ async function lastAiMsg () {
   const aiResponse = {
     result: destination,
   };
+  if (!sessions["step" + step + "-" + messageId]) {
+    sessions["step" + step + "-" + messageId] = {};
+  }
   sessions["step" + step + "-" + messageId].result = aiResponse.result;
   console.log(sessions["step" + step + "-" + messageId]);
   await set(sessionRef, sessions["step" + step + "-" + messageId]);
@@ -166,17 +174,16 @@ async function sendMsg () {
     sessions["step" + step + "-" + messageId] = {};
   }
   sessions["step" + step + "-" + messageId].userResponse = userResponse.text;
-  console.log(sessions["step" + step + "-" + messageId]);
   await set(sessionRef, sessions["step" + step + "-" + messageId]);
 
   if (step < 3) {
     setTimeout(() => {
       replyAiMsg(userMsg);
-    }, 1000);
+    }, 500);
   } else {
     setTimeout(() => {
       lastAiMsg();
-    }, 1000);
+    }, 500);
   }
 }
 
