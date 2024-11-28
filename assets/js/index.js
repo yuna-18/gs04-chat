@@ -122,7 +122,10 @@ async function lastAiMsg () {
   const aiResponse = {
     result: destination,
   }
+  sessions[messageId].result = aiResponse.result;
+  console.log(sessions[messageId]);
   set(sessionRef, sessions[messageId]);
+  createAIMsg(sessions[messageId].result);
   // displayMessage(`提案された散歩の目的地: ${destination}`);
 }
 
@@ -150,7 +153,6 @@ function sendMsg () {
   const userResponse = {
     text: userMsg,
   }
-  console.log(messageId);
   if (!sessions[messageId]) {
     sessions[messageId] = {};
   }
@@ -158,9 +160,13 @@ function sendMsg () {
   console.log(sessions[messageId]);
   set(sessionRef, sessions[messageId]);
 
-  if (step < 4) {
+  if (step < 3) {
     setTimeout(() => {
       replyAiMsg(userMsg);
+    }, 1000);
+  } else {
+    setTimeout(() => {
+      lastAiMsg();
     }, 1000);
   }
 }
@@ -168,10 +174,4 @@ function sendMsg () {
 // ID生成
 function generateId () {
   return Math.floor(Math.random() * 1000 + 1)
-}
-
-// ID取得
-async function main() {
-  const id = await initMsg();
-  console.log(id);
 }
