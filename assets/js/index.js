@@ -24,7 +24,6 @@ const sessions = {};
 // 全体の流れ
 $(function () {
   initMsg();
-  // initMsg();
   // 送信ボタンクリック・エンターキー押した時の挙動
   $('#send').on("click", sendMsg);
   $("#userMsg").on("keypress", function (event) {
@@ -74,7 +73,6 @@ async function initMsg () {
     text: question,
   }
   // 質問をデータベースに保存
-  // saveToDatabase(aiResponse);
   if (!sessions[messageId]) {
     sessions[messageId] = {};
   }
@@ -103,7 +101,6 @@ async function replyAiMsg (userMsg) {
     text: nextQuestion,
   }
   // 次の質問を保存
-  // saveToDatabase(aiResponse);
   sessions[messageId].aiResponse = aiResponse.text;
   set(sessionRef, sessions[messageId]);
   // AIの返信を画面に表示
@@ -151,12 +148,9 @@ function sendMsg () {
   const sessionRef = ref(window.db, `sessions/step${step}-${messageId}`);
   $('#userMsg').val("");
   const userResponse = {
-    // id: `${messageId}`,
     text: userMsg,
   }
-  // set(sessionRef, userResponse.userResponse);
   console.log(messageId);
-  // saveToDatabase(userResponse);
   if (!sessions[messageId]) {
     sessions[messageId] = {};
   }
@@ -170,12 +164,6 @@ function sendMsg () {
     }, 1000);
   }
 }
-
-// データベースに保存
-// function saveToDatabase (message) {
-//   const messageRef = ref(window.db, `sessions/${message.id}`);
-//   set(messageRef, message);
-// }
 
 // ID生成
 function generateId () {
