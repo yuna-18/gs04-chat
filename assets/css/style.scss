@@ -19,42 +19,50 @@
         background-color: lightblue;
         width: 90vw;
         height: calc(1000 / 750 * 100vw);
-        padding: calc(30 / 750 * 100vw);
-        
-        .user-msg, .ai-msg {
+        padding: 5%;
+
+        .msg {
           padding: calc(15 / 750 * 100vw);
-          width: 45vw;
+          width: 40%;
           height: fit-content;
           background-color: #fff;
           border-radius: 2vw;
-          
+          margin-left: 0;
+
+
           p {
             font-size: calc(16 / 750 * 100vw);
+            line-height: 1.5;
           }
-          
-          &:not(.user-msg:first-of-type, .ai-msg:first-of-type) {
+
+          &:not(.msg:first-of-type) {
             margin-top: calc(30 / 750 * 100vw);
           }
+
+          &.msg:nth-of-type(2n) {
+            margin-left: 55%;
+
+          }
         }
-        
-        .user-msg {
-          
-        }
-        .ai-msg {
-          
-        }
+
+        .user-msg {}
+
+        .ai-msg {}
       }
     }
-    
+
     .input__wrapper {
       width: 90vw;
       margin: calc(60 / 750 * 100vw) auto 0;
+
       h2 {
         font-size: calc(28 / 750 * 100vw);
       }
+
       input {
         margin-top: calc(30 / 750 * 100vw);
       }
+
       .btn__outer {
         margin-top: calc(30 / 750 * 100vw);
       }
