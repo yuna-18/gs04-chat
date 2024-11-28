@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>散歩の目的地決定</title>
+  <link rel="stylesheet" href="./css/reset.css">
+  <link rel="stylesheet" href="./css/style.css">
+</head>
+
+<body>
+  <main>
+    <div class="contents__wrapper">
+      <div class="title__outer">
+        <h1>AIからの質問に答えて散歩の目的地を決めよう</h1>
+      </div>
+      <div class="contents">
+        
+      </div>
+    </div>
+    <div class="input__wrapper">
+      <h2>返信を書こう</h2>
+      <input type="text" id="userMsg">
+      <div class="btn__outer">
+        <button id="reset">リセット</button>
+        <button id="send">送信</button>
+      </div>
+    </div>
+  </main>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <script type="module">
+    // Import the functions you need from the SDKs you need
+    import {initializeApp} from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    import {getDatabase, ref, push, set, onChildAdded, remove, onChildRemoved}
+      from "https://www.gstatic.com/firebasejs/11.0.2/firebase-database.js";
+    // https://firebase.google.com/docs/web/setup#available-libraries
+
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyCl4zpV_Q5llBO3jwBv-Ufy5Tycivz7JWQ",
+      authDomain: "wayward-b6102.firebaseapp.com",
+      databaseURL: "https://wayward-b6102-default-rtdb.firebaseio.com",
+      projectId: "wayward-b6102",
+      storageBucket: "wayward-b6102.firebasestorage.app",
+      messagingSenderId: "339853983900",
+      appId: "1:339853983900:web:9044559a72d996d4ffed59"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    const dbRef = ref(db, "chat");
+  </script>
+  <script type="module" src="./js/index.js"></script>
+</body>
+
+</html>
