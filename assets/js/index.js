@@ -124,9 +124,9 @@ async function lastAiMsg () {
     上記の情報を基に、適切な散歩の目的地を提案してください。
     以下の条件に従ってください。
     ・カテゴリで提案する。（例: 公園、史跡）
-    ・3つまで数字をつけて提案する。
+    ・数字をつけた目的地1つ1つを<p></p>で囲う。
+    ・3つまで提案する。
     ・シンプルな文章。
-    ・目的地をそれぞれ<p></p>で囲う。
   `;
   const sessionRef = ref(window.db, "sessions/step" + step + "-" + messageId);
   const result = await model.generateContent(lastPrompt);
