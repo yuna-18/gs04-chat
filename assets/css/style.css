@@ -1,0 +1,49 @@
+@media screen {
+  main {
+    width: -moz-fit-content;
+    width: fit-content;
+    margin: 0 auto;
+  }
+  main .contents__wrapper .title__outer {
+    padding: 4vw;
+  }
+  main .contents__wrapper .title__outer h1 {
+    font-size: 4.2666666667vw;
+    font-weight: bold;
+    text-align: center;
+  }
+  main .contents__wrapper .contents {
+    margin: 0 auto;
+    background-color: lightblue;
+    width: 90vw;
+    height: 133.3333333333vw;
+    padding: 4vw;
+  }
+  main .contents__wrapper .contents .user-msg, main .contents__wrapper .contents .ai-msg {
+    padding: 2vw;
+    width: 45vw;
+    height: -moz-fit-content;
+    height: fit-content;
+    background-color: #fff;
+    border-radius: 2vw;
+  }
+  main .contents__wrapper .contents .user-msg p, main .contents__wrapper .contents .ai-msg p {
+    font-size: 2.1333333333vw;
+  }
+  main .contents__wrapper .contents .user-msg:not(.user-msg:first-of-type, .ai-msg:first-of-type), main .contents__wrapper .contents .ai-msg:not(.user-msg:first-of-type, .ai-msg:first-of-type) {
+    margin-top: 4vw;
+  }
+  main .input__wrapper {
+    width: 90vw;
+    margin: 8vw auto 0;
+  }
+  main .input__wrapper h2 {
+    font-size: 3.7333333333vw;
+  }
+  main .input__wrapper input {
+    margin-top: 4vw;
+  }
+  main .input__wrapper .btn__outer {
+    margin-top: 4vw;
+  }
+}
