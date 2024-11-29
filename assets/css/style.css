@@ -152,8 +152,9 @@
   }
   main .input__wrapper .btn__outer {
     margin-top: 10px;
-    -moz-column-gap: 15px;
-         column-gap: 15px;
+    -moz-column-gap: 60px;
+         column-gap: 60px;
+    justify-content: center;
   }
   main .input__wrapper .btn__outer .select-btn {
     width: 150px;
