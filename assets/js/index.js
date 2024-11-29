@@ -9,7 +9,7 @@ const model = genAI.getGenerativeModel({model: "gemini-1.5-flash"});
 const prompt = `
     以下の条件に従って質問を行い、散歩の目的地を提案してください:
     ・質問と選択肢だけの文章を作る。
-    ・質問ごとに小文字のアルファベットをつけた選択肢を表示する。
+    ・質問ごとに小文字のA・B・Cの3つの選択肢を表示する。
     ・選択肢の回答結果に応じて次の質問を考える。
     ・最終的にカテゴリ（例：公園、史跡）で提案する。
     ・冒頭の文章と選択肢をそれぞれpタグで囲う。
@@ -19,21 +19,19 @@ const prompt = `
 let step = 1;
 let messageId;
 const sessions = {};
+// ボタンを押せるか挙動設定
+let btnFlag = true;
 
 // 全体の流れ
 $(function () {
   initMsg();
   // 送信ボタンクリック・エンターキー押した時の挙動
-  $('#send').on("click", sendMsg);
-  $("#userMsg").on("keypress", function (event) {
-    if (event.key === "Enter") {
-      event.preventDefault(); // フォームのデフォルト送信動作を防ぐ
-      sendMsg();
-    }
-  });
-  // 入力中のテキストリセット
-  $('#repush').on("click", function () {
-    $('#userMsg').val("");
+  $('.select-btn').on("click", function () {
+      if (btnFlag === true) {
+        sendAnswer(this.value);
+      } else {
+        return;
+      }
   });
 });
 
@@ -47,12 +45,13 @@ function createAiMsg (aiMsg) {
   </div>
   `;
   $('.contents').append(message);
+  btnFlag = true;
 }
 // ユーザーメッセージ要素作成
-function createUserMsg (userMsg) {
+function createUserMsg (sendAnswer) {
   let message = `
   <div class="user-msg msg">
-    <p>${userMsg}</p>
+    <p>${sendAnswer}</p>
   </div>
   `;
   $('.contents').append(message);
@@ -94,13 +93,13 @@ async function initMsg () {
 }
 
 // AIからの返信
-async function replyAiMsg (userMsg) {
+async function replyAiMsg (userAnswer) {
   step++;
   const history = await fetchSessionHistory(); // Firebaseから履歴を取得する関数を実装
   const replyPrompt = `
     以下は現在の会話の履歴です:
     前回の質問:${history.aiResponse}
-    ユーザーの最新回答: ${userMsg}
+    ユーザーの最新回答: ${userAnswer}
     この情報をもとに、次の質問を生成してください。
     ${prompt}
   `;
@@ -173,13 +172,14 @@ async function fetchSessionHistory () {
 }
 
 // 送信
-async function sendMsg () {
-  let userMsg = $('#userMsg').val();
-  createUserMsg(userMsg);
+async function sendAnswer (answer) {
+  btnFlag = false;
+  let userAnswer = answer;
+  console.log(userAnswer);
+  createUserMsg(userAnswer);
   const sessionRef = ref(window.db, "sessions/step" + step + "-" + messageId);
-  $('#userMsg').val("");
   const userResponse = {
-    text: userMsg,
+    text: userAnswer,
   };
   if (!sessions["step" + step + "-" + messageId]) {
     sessions["step" + step + "-" + messageId] = {};
@@ -189,7 +189,7 @@ async function sendMsg () {
 
   if (step < 3) {
     setTimeout(() => {
-      replyAiMsg(userMsg);
+      replyAiMsg(userAnswer);
     }, 500);
   } else {
     setTimeout(() => {

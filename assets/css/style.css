@@ -65,7 +65,7 @@
     width: 10%;
   }
   main .input__wrapper {
-    width: 80%;
+    width: 100%;
     margin: 8vw auto 0;
   }
   main .input__wrapper h2 {
@@ -77,10 +77,21 @@
   }
   main .input__wrapper .btn__outer {
     display: flex;
-    width: 100%;
-    -moz-column-gap: 4vw;
-         column-gap: 4vw;
+    width: 90%;
+    margin: 0 auto;
+    justify-content: space-between;
     margin-top: 2.6666666667vw;
+  }
+  main .input__wrapper .btn__outer .select-btn {
+    padding: 0;
+    display: block;
+    width: 26.6666666667vw;
+    height: 26.6666666667vw;
+    border: transparent;
+    background-color: lightblue;
+    border-radius: 50%;
+    font-size: 10.6666666667vw;
+    color: #fff;
   }
 }
 @media screen and (min-width: 750px) {

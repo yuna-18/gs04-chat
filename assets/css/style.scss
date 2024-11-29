@@ -76,7 +76,7 @@
     }
 
     .input__wrapper {
-      width: 80%;
+      width: 100%;
       margin: calc(60 / 750 * 100vw) auto 0;
 
       h2 {
@@ -90,9 +90,23 @@
 
       .btn__outer {
         display: flex;
-        width: 100%;
-        column-gap: calc(30 / 750 * 100vw);
+        width: 90%;
+        margin: 0 auto;
+        justify-content: space-between;
+        // column-gap: calc(30 / 750 * 100vw);
         margin-top: calc(20 / 750 * 100vw);
+        
+        .select-btn{
+          padding: 0;
+          display: block;
+          width: calc(200 / 750 * 100vw);
+          height: calc(200 / 750 * 100vw);
+          border: transparent;
+          background-color: lightblue;
+          border-radius: 50%;
+          font-size: calc(80 / 750 * 100vw);
+          color: #fff;
+        }
       }
     }
   }
