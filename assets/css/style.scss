@@ -21,7 +21,7 @@
         height: 70vh;
         overflow-y: scroll;
         padding: 5%;
-        
+
         .msg {
           padding: calc(15 / 750 * 100vw);
           width: 75%;
@@ -29,48 +29,44 @@
           background-color: #fff;
           border-radius: 2vw;
           margin-left: 85%;
-          
+
           p {
             font-size: calc(16 / 750 * 100vw);
             line-height: 1.5;
-            
+
             &:nth-of-type(2) {
               margin-top: calc(30 / 750 * 100vw);
             }
           }
-          
+
           &:not(.msg:first-of-type) {
             margin-top: calc(30 / 750 * 100vw);
           }
-          
+
           &:not(.msg:nth-of-type(even)) {
             margin-left: 0;
           }
-          
+
         }
-        
+
         .user-msg {
           width: 10%;
         }
-        .ai-msg {
-          &:last-of-type {
-            p:nth-of-type(2) {
-              margin-top: 0;
-            }
-          }
-        }
       }
     }
-    
+
     .input__wrapper {
       width: 90vw;
       margin: calc(60 / 750 * 100vw) auto 0;
+
       h2 {
         font-size: calc(28 / 750 * 100vw);
       }
+
       input {
         margin-top: calc(30 / 750 * 100vw);
       }
+
       .btn__outer {
         margin-top: calc(30 / 750 * 100vw);
       }

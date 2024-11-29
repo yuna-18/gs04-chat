@@ -40,7 +40,7 @@ $(function () {
 
 // ---要素挿入---
 // AIメッセージ要素作成
-function createAIMsg (aiMsg) {
+function createAiMsg (aiMsg) {
   let message = `
   <div class="ai-msg msg">
     ${aiMsg}
@@ -53,6 +53,17 @@ function createUserMsg (userMsg) {
   let message = `
   <div class="user-msg msg">
     <p>${userMsg}</p>
+  </div>
+  `;
+  $('.contents').append(message);
+}
+
+//最後の要素作成
+function createLastAiMsg (aiMsg) {
+  let message = `
+  <div class="ai-msg msg last">
+    <p>あなたにおすすめの散歩の目的地は…</p>
+    ${aiMsg}
   </div>
   `;
   $('.contents').append(message);
@@ -77,7 +88,7 @@ async function initMsg () {
   sessions["step" + step + "-" + messageId].id = "sessions/step" + step + "-" + messageId;
   sessions["step" + step + "-" + messageId].aiResponse = aiResponse.text;
   await set(sessionRef, sessions["step" + step + "-" + messageId]);
-  createAIMsg(question);
+  createAiMsg(question);
 
   return id;
 }
@@ -107,7 +118,7 @@ async function replyAiMsg (userMsg) {
   sessions["step" + step + "-" + messageId].aiResponse = aiResponse.text;
   await set(sessionRef, sessions["step" + step + "-" + messageId]);
   // AIの返信を画面に表示
-  createAIMsg(nextQuestion);
+  createAiMsg(nextQuestion);
 }
 
 // 目的地の提案
@@ -140,7 +151,7 @@ async function lastAiMsg () {
   sessions["step" + step + "-" + messageId].result = aiResponse.result;
   console.log(sessions["step" + step + "-" + messageId]);
   await set(sessionRef, sessions["step" + step + "-" + messageId]);
-  createAIMsg(sessions["step" + step + "-" + messageId].result);
+  createLastAiMsg(sessions["step" + step + "-" + messageId].result);
 }
 
 // ---その他の関数---
