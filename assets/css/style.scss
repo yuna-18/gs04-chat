@@ -93,7 +93,6 @@
         width: 90%;
         margin: 0 auto;
         justify-content: space-between;
-        // column-gap: calc(30 / 750 * 100vw);
         margin-top: calc(20 / 750 * 100vw);
         
         .select-btn{
@@ -122,20 +121,20 @@
         padding: 15px;
 
         h1 {
-          font-size: 28px;
+          font-size: 24px;
         }
       }
 
       .contents {
         width: 95%;
-        height: 72.5vh;
+        height: 70vh;
         padding: 2.5%;
 
         .msg {
           padding: 15px;
           width: 65%;
           margin-left: 90%;
-          font-size: 18px;
+          font-size: 16px;
 
           p {
 
@@ -178,12 +177,8 @@
     }
 
     .input__wrapper {
-      width: 90%;
-      margin: 30px auto 0;
-
-      h2 {
-        font-size: 20px;
-      }
+      width: 100%;
+      margin-top: 20px;
 
       input {
         margin-top: 10px;
@@ -192,6 +187,20 @@
       .btn__outer {
         margin-top: 10px;
         column-gap: 15px;
+        
+        .select-btn {
+          width: 150px;
+          height: 150px;
+          font-size: 80px;
+          opacity: 1;
+          transition: .3s;
+          cursor: pointer;
+          
+          &:hover {
+            opacity: .7;
+            transition: .3s;
+          }
+        }
       }
     }
   }

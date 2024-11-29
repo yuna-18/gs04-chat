@@ -103,18 +103,18 @@
     padding: 15px;
   }
   main .contents__wrapper .title__outer h1 {
-    font-size: 28px;
+    font-size: 24px;
   }
   main .contents__wrapper .contents {
     width: 95%;
-    height: 72.5vh;
+    height: 70vh;
     padding: 2.5%;
   }
   main .contents__wrapper .contents .msg {
     padding: 15px;
     width: 65%;
     margin-left: 90%;
-    font-size: 18px;
+    font-size: 16px;
   }
   main .contents__wrapper .contents .msg p:nth-of-type(2) {
     margin-top: 15px;
@@ -144,11 +144,8 @@
     width: 5%;
   }
   main .input__wrapper {
-    width: 90%;
-    margin: 30px auto 0;
-  }
-  main .input__wrapper h2 {
-    font-size: 20px;
+    width: 100%;
+    margin-top: 20px;
   }
   main .input__wrapper input {
     margin-top: 10px;
@@ -157,5 +154,17 @@
     margin-top: 10px;
     -moz-column-gap: 15px;
          column-gap: 15px;
+  }
+  main .input__wrapper .btn__outer .select-btn {
+    width: 150px;
+    height: 150px;
+    font-size: 80px;
+    opacity: 1;
+    transition: 0.3s;
+    cursor: pointer;
+  }
+  main .input__wrapper .btn__outer .select-btn:hover {
+    opacity: 0.7;
+    transition: 0.3s;
   }
 }
