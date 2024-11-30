@@ -20,10 +20,10 @@ https://gs04-chat.vercel.app/
 ### 難しかった点
 - プロンプトを考えること
 - 非同期処理(変数が思ったタイミングで変化しないなど)
-- jQueryだけを使うが、APIキーの保護をしたい時の方法を調べて対応すること 
+- jQueryだけを使うが、APIキーの保護をしたい時の方法を調べて対応すること(今回はViteで環境構築し、Vercelを利用してデプロイしています)
 
 
 ## ⑦質問・疑問・感想、シェアしたいこと等なんでも
- - 参考サイト
- Viteについて
- https://zenn.dev/chot/articles/11f2ca160e36ea
+### 参考サイト
+ - Viteについて　　https://zenn.dev/chot/articles/11f2ca160e36ea
+ - Vercelについて　　https://zenn.dev/mr_ozin/articles/17920ca403b8af
